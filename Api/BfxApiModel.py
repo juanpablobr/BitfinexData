@@ -2,18 +2,16 @@
 from enum import Enum
 import requests
 
-class Api(Enum):
-    v1 = "v1/"
-    v2 = "v2/"
-
 class Symbols(Enum):
-    BTCUSD = "tBTCUSD"
+    BTC_USD = "tBTCUSD"
+    LTC_BTC = "tLTCBTC"
 
 class TimeFrames(Enum):
-    m1 = "1m"
-    h1 = "1h"
-    D1 = "1D"
-    M1 = "1M"
+    m1  = "1m"
+    m15 = "15m"
+    h1  = "1h"
+    D1  = "1D"
+    M1  = "1M"
 
 class Sections(Enum):
     last = "last"
@@ -23,10 +21,11 @@ class Sort(Enum):
     newFirst = 0
     oldFirst = 1
 
-class BfxPublicClient:
-    def __init__(self, version=Api.v2, debug=False):
-        baseUrl     = "https://api.bitfinex.com/"
-        self.apiUrl = baseUrl + version.value
+class BfxApiModel:
+    baseUrl    = "https://api.bitfinex.com/"
+    apiVersion = "v2/" 
+    def __init__(self, debug=False):
+        self.apiUrl = self.baseUrl + self.apiVersion
         self.debug  = debug
 
     # Public Endpoints

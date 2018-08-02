@@ -1,8 +1,9 @@
 
 import sqlite3
+import pandas as pd
 
-class Database:
-    def __init__(self, dbUrl):
+class DatabaseModel:
+    def __init__(self, dbUrl="./Database/db.sqlite3"):
         self.conn   = sqlite3.connect(dbUrl)
         self.c      = self.conn.cursor()  
 
@@ -38,4 +39,9 @@ class Database:
         if selection != None:
             timestamp = selection[0]
         self.c.execute("DELETE FROM "+ tableName +" WHERE timestamp = " + str(timestamp))
-        self.conn.commit()
+        self.conn.commit() 
+
+    def df(self, tableName: str):
+        query = "SELECT * FROM " + tableName
+        data  = pd.read_sql(sql=query, con=self.conn)
+        return data

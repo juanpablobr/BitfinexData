@@ -1,24 +1,17 @@
+from Api.BfxApiModel        import *
+from Database.DatabaseModel import DatabaseModel
+from time                   import time
+from time                   import sleep
 
-from BfxPublicClient import BfxPublicClient
-from BfxPublicClient import Symbols
-from BfxPublicClient import TimeFrames
-from BfxPublicClient import Sort
-
-from Database        import Database
-
-from time            import time
-from time            import sleep
-
-class BfxData:
-    def __init__(self, dbUrl="./db.sqlite3", tablePrefix="Bfx", debug=False):
+class BfxDataLoader:
+    def __init__(self, tablePrefix="Bfx", debug=False):
         self.debug  = debug 
-        self.client = BfxPublicClient(debug=debug)
-        self.dbUrl  = dbUrl
+        self.client = BfxApiModel(debug=debug)
         self.tablePrefix = tablePrefix
 
     def load(self, symbol: Symbols, timeframe: TimeFrames):
         
-        db = Database(self.dbUrl)
+        db = DatabaseModel()
 
         frameStr = ""
         if timeframe == TimeFrames.M1:
